@@ -4,9 +4,7 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-haskell@v1
@@ -17,10 +15,10 @@ jobs:
       uses: mstksg/setup-stack@v1
     - name: Install dependencies
       run: |
-        cabal update
-        cabal install --only-dependencies --enable-tests
+        stack setup --stack-yaml=stack.yaml
     - name: Build
       run: |
         stack build
     - name: Run tests
-      run: stack test
+      run: |
+        stack test
