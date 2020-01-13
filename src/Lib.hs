@@ -7,6 +7,7 @@ module Lib
     , preOrder
     , size
     , insert
+    , depth
     )
 where
 
@@ -17,7 +18,19 @@ someFunc = putStrLn "someFunc"
 
 -- |The data structure representing a binary search tree that can hold any
 -- arbitrary data
-data BST a = Empty | Node (BST a) a (BST a) deriving (Show, Eq, Ord)
+data BST a = Empty | Node (BST a) a (BST a) deriving (Eq, Ord)
+
+instance Show a => Show (BST a) where
+    show = unlines . layoutTree
+
+-- |Indent a string. This method will prepend an indentation (4 spaces) to a string
+indent :: [String] -> [String]
+indent = map ("    " ++)
+
+-- |A helper method to pretty-print a binary tree
+layoutTree Empty = []
+layoutTree (Node left value right) =
+    indent (layoutTree right) ++ [show value] ++ indent (layoutTree left)
 
 -- |Whether the binary search tree is empty
 empty :: BST a -> Bool
@@ -74,3 +87,8 @@ postOrder (Node left middle right) =
 -- |Convert a list to a BST
 fromList :: (Ord a, Eq a) => [a] -> BST a
 fromList = foldl insert Empty
+
+-- |Get the depth of a binary search tree
+depth :: BST a -> Int
+depth Empty               = 0
+depth (Node left _ right) = 1 + max (depth left) (depth right)
