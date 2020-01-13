@@ -13,9 +13,6 @@ where
 
 import           Data.Maybe
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
-
 -- |The data structure representing a binary search tree that can hold any
 -- arbitrary data
 data BST a = Empty | Node (BST a) a (BST a) deriving (Eq, Ord)
@@ -25,9 +22,10 @@ instance Show a => Show (BST a) where
 
 -- |Indent a string. This method will prepend an indentation (4 spaces) to a string
 indent :: [String] -> [String]
-indent = map ("    " ++)
+indent = map ("\t" ++)
 
 -- |A helper method to pretty-print a binary tree
+layoutTree :: Show a => BST a -> [String]
 layoutTree Empty = []
 layoutTree (Node left value right) =
     indent (layoutTree right) ++ [show value] ++ indent (layoutTree left)
@@ -37,10 +35,10 @@ empty :: BST a -> Bool
 empty Empty = True
 empty _     = False
 
--- |Calculate the size of a binary search tree
+-- |Returns the number of elements in the binary search tree
 size :: (Ord a) => BST a -> Int
-size Empty                    = 0
-size (Node left middle right) = size left + size right + 1
+size Empty               = 0
+size (Node left _ right) = size left + size right + 1
 
 -- |Filters a "Maybe" boolean. If the variable is an instance of `Nothing`,
 -- this will return false. Otherwise, it will unwrap the boolean.

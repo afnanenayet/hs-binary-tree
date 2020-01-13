@@ -21,11 +21,12 @@ description:         Please see the README on GitHub at <https://github.com/afna
 
 dependencies:
 - base >= 4.7 && < 5
+- containers
 
 library:
   source-dirs: src
   ghc-options:
-    - -threaded
+    - -Wall
 
 tests:
   binary-search-tree-test:
