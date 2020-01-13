@@ -40,12 +40,6 @@ size :: (Ord a) => BST a -> Int
 size Empty               = 0
 size (Node left _ right) = size left + size right + 1
 
--- |Filters a "Maybe" boolean. If the variable is an instance of `Nothing`,
--- this will return false. Otherwise, it will unwrap the boolean.
-filterMaybeBool :: Maybe Bool -> Bool
-filterMaybeBool (Just x) = x
-filterMaybeBool Nothing  = False
-
 -- |Insert an element into the binary search tree (this does not balance the
 -- tree)
 insert :: (Ord a, Eq a) => BST a -> a -> BST a
