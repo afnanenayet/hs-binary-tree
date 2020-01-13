@@ -84,3 +84,18 @@ fromList = foldl insert Empty
 depth :: BST a -> Int
 depth Empty               = 0
 depth (Node left _ right) = 1 + max (depth left) (depth right)
+
+instance (Ord a) => Monoid (BST a) where
+    mempty = Empty
+    mappend x y = fromList concatList
+        where concatList = inOrder x ++ inOrder y
+
+instance (Ord a) => Semigroup (BST a) where
+    Empty <> tree = tree
+    tree <> Empty = tree
+    x <> y = fromList combinedList where combinedList = inOrder x ++ inOrder y
+
+instance Foldable BST where
+    foldMap _ Empty = mempty
+    foldMap f (Node left value right) =
+        foldMap f left <> f value <> foldMap f right
